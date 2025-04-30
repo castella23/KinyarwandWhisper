@@ -62,7 +62,7 @@ engine.runAndWait()
 recording = sd.rec(int(record_duration * sample_rate), samplerate=sample_rate, channels=1, dtype='float32')
 sd.wait()
 torchaudio.save(recorded_file, torch.tensor(recording.T), sample_rate)
-print("✅ Ijwi ribitswe!")
+print("✅ Ijwi ribirabitswe!")
 
 # === Load and preprocess audio ===
 waveform, sr = torchaudio.load(recorded_file)

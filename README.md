@@ -1,60 +1,120 @@
-## 🗣️ KinyaWhisper
-KinyaWhisper is a fine-tuned version of OpenAI’s Whisper model for automatic speech recognition (ASR) in Kinyarwanda. It was trained on 102 manually labeled .wav files and serves as a reproducible baseline for speech recognition in low-resource, indigenous languages.
 
-## 🤗 Hugging Face Model
+  🗣️ KinyaWhisper Voice Assistant
 
-The fine-tuned KinyaWhisper model is publicly available on Hugging Face:
+KinyaWhisper is a lightweight Kinyarwanda voice assistant that demonstrates how humanoid robots can interact with people in local languages. It uses a fine-tuned Whisper model for speech recognition, simple NLP for understanding, and text-to-speech for spoken replies. Built as part of an academic project, this assistant showcases the power of AI in culturally relevant applications.
 
-➡️ [https://huggingface.co/benax-rw/KinyaWhisper](https://huggingface.co/benax-rw/KinyaWhisper)
+---
 
-You can use it directly in your code:
+  🎯 Project Goals
 
-```python
-from transformers import WhisperProcessor, WhisperForConditionalGeneration
-import torchaudio
+- Build a mini Kinyarwanda voice assistant from scratch.
+- Enable full interaction in Kinyarwanda: speech-in, speech-out.
+- Support real-time and batch transcription.
+- Demonstrate how ASR, NLP, and TTS can power voice-enabled robots.
 
-# Load fine-tuned KinyaWhisper model and processor from Hugging Face
-model = WhisperForConditionalGeneration.from_pretrained("benax-rw/KinyaWhisper")
-processor = WhisperProcessor.from_pretrained("benax-rw/KinyaWhisper")
+---
 
-# Load and preprocess audio
-waveform, sample_rate = torchaudio.load("your_audio.wav")
-inputs = processor(waveform.squeeze(), sampling_rate=sample_rate, return_tensors="pt")
+  🧠 Features
 
-# Generate prediction
-predicted_ids = model.generate(inputs["input_features"])
-transcription = processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
+- 🎙️  Automatic Speech Recognition (ASR)  using the `kinyawhisper` model.
+- 🧠  Natural Language Processing (NLP)  using rule-based and fuzzy matching.
+- 🔊  Text-to-Speech (TTS)  replies using `pyttsx3` (offline).
+- 🖥️ CLI and optional Streamlit GUI interface.
+- 🗃️ Transcribes `.wav` files and matches them to answers in Kinyarwanda.
 
-print("🗣️ Transcription:", transcription)
+---
+
+  🗂️ Folder Structure
+
+```
+.
+├── audio/                   # 6 custom audio samples (Kinyarwanda)
+├── dataset.jsonl           # Metadata: audio path + transcription
+├── kinya-whisper-model/    # Fine-tuned Whisper model output
+├── train.py                # Whisper training script
+├── inference.py            # Batch transcription script
+├── main.py                 # Voice assistant (batch mode)
+├── bach_main.py            # Live voice input (CLI)
+├── transcriptions.txt      # Transcription results
+├── README.md               # Project documentation
 ```
 
-## 🏋️ Taining Details
-•	Model: openai/whisper-small
-•	Epochs: 80
-•	Batch size: 4
-•	Learning rate: 1e-5
-•	Optimizer: Adam
-•	Final loss: 0.00024
-•	WER: 51.85%
+---
 
-## ⚠️Limitations
-The model was trained on a small dataset (102 samples). It performs best on short, clear Kinyarwanda utterances and may struggle with longer or noisy audio. This is an early-stage educational model, not yet suitable for production use.
+  🚀 Quickstart
 
-## 📚 Citation
+ # 1. Install Requirements
 
-If you use this model, please cite:
-
-```bibtex
-@misc{baziramwabo2025kinyawhisper,
-  author       = {Gabriel Baziramwabo},
-  title        = {KinyaWhisper: Fine-Tuning Whisper for Kinyarwanda ASR},
-  year         = {2025},
-  publisher    = {Hugging Face},
-  howpublished = {\url{https://huggingface.co/benax-rw/KinyaWhisper}},
-  note         = {Version 1.0}
-}
+```bash
+git clone https://github.com/your-username/KinyaWhisper.git
+cd KinyaWhisper
+pip install -r requirements.txt
 ```
-## 📬 Contact
-Maintained by Gabriel Baziramwabo. 
-✉️ gabriel@benax.rw
-🔗 https://benax.rw
+
+ # 2. Run Voice Assistant (Batch Mode)
+
+```bash
+python main.py
+```
+
+ # 3. Run CLI (Live Audio)
+
+```bash
+python bach_main.py
+```
+
+ # 4. Transcribe Audio Only
+
+```bash
+python inference.py
+```
+
+ # 5. Train a New Model (Optional)
+
+```bash
+python train.py
+```
+
+---
+
+  🧪 Sample Questions & Answers
+
+| Question (Kinyarwanda) | Assistant Response                   |
+|------------------------|--------------------------------------|
+| amakuru yawe           | Ni meza, urakoze!                    |
+| witwa nde              | Nitwa Mudasa AI.                     |
+| uzi ikinyarwanda       | Nkunda gufasha abantu mu rurimi rwacu. |
+| umupira                | Umupira ukinwa n’amakipe abiri.     |
+| amafaranga             | Amafaranga akoreshwa mu kugura ibikoresho. |
+
+> Fuzzy matching improves recognition even if the transcription isn't exact.
+
+---
+
+  📊 Training Summary
+
+-  Model Used : `kinyawhisper`
+-  Dataset: 6 Kinyarwanda audio samples
+-  Fine-tuning Tool : Hugging Face Transformers
+
+---
+
+  ⚠️ Limitations
+
+- Model may misrecognize if speech is too fast or unclear.
+- Best results on short, clear Kinyarwanda phrases.
+- Dictionary-based NLP may not scale to complex queries.
+
+---
+
+  📬 Contact
+
+ Author : Ineza Cinta Castella (@castella23)  
+📧 castellaine23@gmail.com  
+🔗 GitHub: https://github.com/castella23
+
+---
+
+  📚 Acknowledgements
+
+This project was developed for the  Intelligent Robotics  course at  Rwanda Coding Academy , under the guidance of  Gabriel Baziramwabo .
